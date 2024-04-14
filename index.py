@@ -46,13 +46,19 @@ def main():
     old_private_key = load_key("old_private_key.pem", private=True)
     new_public_key = load_key("new_public_key.pem")
 
-    # Decrypt sample file
-    decrypted_data = decrypt_file(old_private_key, "user_profiles/aaron_diaz.bin")
+    os.makedirs("new_user_profiles", exist_ok=True)
 
-    # Encrypt
-    encrypted_data = encrypt_file(new_public_key, decrypted_data, "new_user_profiles/aaron_diaz_new.bin")
+    # Loopi
+    for filename in os.listdir("user_profiles"):
+        if filename.endswith(".bin"):
+            # Extracts nam
+            username = filename.split('.')[0]
+            # Decrypt file
+            decrypted_data = decrypt_file(old_private_key, f"user_profiles/{filename}")
+            # Encrypt
+            encrypt_file(new_public_key, decrypted_data, f"new_user_profiles/{username}.bin")
 
-    print("Decryption and encryption completed.")
+    print("Decryption and encryption of all files completed.")
 
 if __name__ == "__main__":
     main()
